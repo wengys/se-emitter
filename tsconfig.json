@@ -6,12 +6,12 @@
     "allowSyntheticDefaultImports": true,
     "lib": [
       "dom",
-      "es5"
+      "es6"
     ],
     "noEmitOnError": true,
     "removeComments": false,
     "sourceMap": true,
-    "target": "es5",
+    "target": "es6",
     "module": "es2015",    
     "moduleResolution": "node",
     "outDir": "dist"

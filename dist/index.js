@@ -1,45 +1,31 @@
-var SimpleEventEmitter = (function () {
-    function SimpleEventEmitter() {
+export class SimpleEventEmitter {
+    constructor() {
         this._events = {};
     }
-    SimpleEventEmitter.prototype.on = function (event, callback) {
-        var events = this._events[event] || (this._events[event] = []);
+    on(event, callback) {
+        let events = this._events[event] || (this._events[event] = []);
         events.push(callback);
-    };
+    }
     ;
-    SimpleEventEmitter.prototype.trigger = function (event) {
-        var args = [];
-        for (var _i = 1; _i < arguments.length; _i++) {
-            args[_i - 1] = arguments[_i];
-        }
+    trigger(event, ...args) {
         var events = this._events[event]; //特定事件处理
         if (events) {
-            var eventCount = events.length;
-            for (var i = 0; i < eventCount; i++) {
-                var ev = events[i];
+            let eventCount = events.length;
+            for (let i = 0; i < eventCount; i++) {
+                let ev = events[i];
                 ev.apply(this, args);
             }
         }
-    };
-    SimpleEventEmitter.prototype.relayEvents = function (otherSource, relayEventsMapping) {
-        var _this = this;
-        var _loop_1 = function (index) {
+    }
+    relayEvents(otherSource, relayEventsMapping) {
+        for (let index in relayEventsMapping) {
             if (relayEventsMapping.hasOwnProperty(index)) {
-                var mappedIndex_1 = relayEventsMapping[index];
-                otherSource.on(index, function () {
-                    var args = [];
-                    for (var _i = 0; _i < arguments.length; _i++) {
-                        args[_i] = arguments[_i];
-                    }
-                    _this.trigger.apply(_this, [mappedIndex_1].concat(args));
+                let mappedIndex = relayEventsMapping[index];
+                otherSource.on(index, (...args) => {
+                    this.trigger(mappedIndex, ...args);
                 });
             }
-        };
-        for (var index in relayEventsMapping) {
-            _loop_1(index);
         }
-    };
-    return SimpleEventEmitter;
-}());
-export { SimpleEventEmitter };
+    }
+}
 //# sourceMappingURL=index.js.map
